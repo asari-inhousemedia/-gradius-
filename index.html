@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradius - Browser Edition</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui-overlay">
+            <div id="score">SCORE: <span id="score-value">0</span></div>
+            <div id="power-bar">
+                <span class="power-item" data-index="0">SPEED</span>
+                <span class="power-item" data-index="1">MISSILE</span>
+                <span class="power-item" data-index="2">DOUBLE</span>
+                <span class="power-item" data-index="3">LASER</span>
+                <span class="power-item" data-index="4">OPTION</span>
+                <span class="power-item" data-index="5">?</span>
+            </div>
+            <div id="lives">LIVES: <span id="lives-value">3</span></div>
+        </div>
+        <div id="start-screen">
+            <h1>GRADIUS</h1>
+            <p>Browser Edition</p>
+            <div class="controls-info">
+                <p>Pfeiltasten / WASD - Bewegen</p>
+                <p>LEERTASTE - Schießen</p>
+                <p>ENTER - Power-Up aktivieren</p>
+            </div>
+            <button id="start-btn">START GAME</button>
+        </div>
+        <div id="game-over-screen" class="hidden">
+            <h1>GAME OVER</h1>
+            <p>Score: <span id="final-score">0</span></p>
+            <button id="restart-btn">NOCHMAL SPIELEN</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
