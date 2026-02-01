@@ -311,11 +311,12 @@ document.addEventListener('keydown', (e) => {
     if (e.code === 'Enter' && game.running && !game.paused) {
         activatePowerUp(player1);
     }
-    if (e.code === 'ShiftRight' && game.running && !game.paused && game.twoPlayerMode) {
+    if ((e.code === 'AltRight' || e.code === 'AltLeft') && game.running && !game.paused && game.twoPlayerMode) {
         activatePowerUp(player2);
+        e.preventDefault();
     }
 
-    if (e.code === 'Space' || e.code === 'Numpad0') {
+    if (e.code === 'Space' || e.code === 'MetaRight' || e.code === 'MetaLeft') {
         e.preventDefault();
     }
 });
@@ -1065,10 +1066,10 @@ function moveOptions(player) {
 }
 
 // Schießen
-function shoot(player, fireKey) {
+function shoot(player, fireKey, fireKey2 = null) {
     if (!player.active) return;
 
-    if (keys[fireKey] && player.shootCooldown <= 0) {
+    if ((keys[fireKey] || (fireKey2 && keys[fireKey2])) && player.shootCooldown <= 0) {
         if (player.powerUps.laser) {
             SoundFX.laser();
             bullets.push({
@@ -1988,7 +1989,7 @@ function gameLoop() {
         if (game.twoPlayerMode && player2.active) {
             movePlayer(player2, controls2);
             moveOptions(player2);
-            shoot(player2, 'Numpad0');
+            shoot(player2, 'MetaRight', 'MetaLeft');
         }
 
         moveBullets();
