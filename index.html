@@ -10,7 +10,10 @@
     <div id="game-container">
         <canvas id="gameCanvas"></canvas>
         <div id="ui-overlay">
-            <div id="score">SCORE: <span id="score-value">0</span></div>
+            <div id="stats-left">
+                <div id="score">SCORE: <span id="score-value">0</span></div>
+                <div id="highscore">HI: <span id="highscore-value">0</span></div>
+            </div>
             <div id="power-bar">
                 <span class="power-item" data-index="0">SPEED</span>
                 <span class="power-item" data-index="1">MISSILE</span>
@@ -19,22 +22,70 @@
                 <span class="power-item" data-index="4">OPTION</span>
                 <span class="power-item" data-index="5">?</span>
             </div>
-            <div id="lives">LIVES: <span id="lives-value">3</span></div>
+            <div id="stats-right">
+                <div id="level">LEVEL: <span id="level-value">1</span></div>
+                <div id="lives">P1: <span id="lives-value">3</span></div>
+                <div id="lives-2">P2: <span id="lives-value-2">3</span></div>
+            </div>
         </div>
+
+        <!-- Boss Health Bar -->
+        <div id="boss-health-bar">
+            <div id="boss-health-fill"></div>
+            <span id="boss-name">BOSS</span>
+        </div>
+
+        <!-- Power Bar für Spieler 2 -->
+        <div id="power-bar-p2">
+            <span class="power-item-p2" data-index="0">SPEED</span>
+            <span class="power-item-p2" data-index="1">MISSILE</span>
+            <span class="power-item-p2" data-index="2">DOUBLE</span>
+            <span class="power-item-p2" data-index="3">LASER</span>
+            <span class="power-item-p2" data-index="4">OPTION</span>
+            <span class="power-item-p2" data-index="5">?</span>
+        </div>
+
+        <!-- Start Screen -->
         <div id="start-screen">
             <h1>GRADIUS</h1>
             <p>Browser Edition</p>
             <div class="controls-info">
-                <p>Pfeiltasten / WASD - Bewegen</p>
-                <p>LEERTASTE - Schießen</p>
-                <p>ENTER - Power-Up aktivieren</p>
+                <div class="control-column">
+                    <h3>Spieler 1</h3>
+                    <p>Pfeiltasten - Bewegen</p>
+                    <p>LEERTASTE - Schießen</p>
+                    <p>ENTER - Power-Up</p>
+                </div>
+                <div class="control-column">
+                    <h3>Spieler 2</h3>
+                    <p>WASD - Bewegen</p>
+                    <p>NUMPAD 0 - Schießen</p>
+                    <p>SHIFT RECHTS - Power-Up</p>
+                </div>
             </div>
-            <button id="start-btn">START GAME</button>
+            <p class="hint">ESC = Pause | Sammle Kristalle für neue Waffen!</p>
+            <div class="button-container">
+                <button id="start-btn">1 SPIELER</button>
+                <button id="start-2p-btn">2 SPIELER</button>
+            </div>
         </div>
+
+        <!-- Game Over Screen -->
         <div id="game-over-screen" class="hidden">
             <h1>GAME OVER</h1>
             <p>Score: <span id="final-score">0</span></p>
+            <div id="highscore-list"></div>
             <button id="restart-btn">NOCHMAL SPIELEN</button>
+        </div>
+
+        <!-- Pause Screen -->
+        <div id="pause-screen" class="hidden">
+            <h1>PAUSE</h1>
+            <p>Drücke ESC zum Fortsetzen</p>
+            <div class="button-container">
+                <button id="resume-btn">FORTSETZEN</button>
+                <button id="quit-btn">BEENDEN</button>
+            </div>
         </div>
     </div>
     <script src="game.js"></script>

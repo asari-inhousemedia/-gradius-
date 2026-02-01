@@ -35,32 +35,64 @@ body {
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     pointer-events: none;
     z-index: 10;
 }
 
-#score, #lives {
+#stats-left, #stats-right {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#score, #lives, #lives-2, #level, #highscore {
     color: #fff;
-    font-size: 18px;
+    font-size: 14px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#highscore {
+    color: #ffcc00;
+    font-size: 12px;
+}
+
+#lives-2 {
+    color: #00ff88;
 }
 
 #power-bar {
     display: flex;
     gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 400px;
 }
 
-.power-item {
+#power-bar-p2 {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 5px;
+    z-index: 10;
+}
+
+.power-item, .power-item-p2 {
     padding: 4px 8px;
     background: #222;
     color: #666;
-    font-size: 12px;
+    font-size: 11px;
     border: 1px solid #444;
     transition: all 0.1s;
 }
 
-.power-item.available {
+.power-item-p2 {
+    border-color: #00ff88;
+}
+
+.power-item.available, .power-item-p2.available {
     background: #ff6600;
     color: #fff;
     border-color: #ff9900;
@@ -75,13 +107,60 @@ body {
     transform: scale(1.1);
 }
 
+.power-item-p2.selected {
+    background: #00ff88;
+    color: #000;
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.9);
+    transform: scale(1.1);
+}
+
 .power-item.active {
     background: #00cc00;
     color: #fff;
     border-color: #00ff00;
 }
 
-#start-screen, #game-over-screen {
+.power-item-p2.active {
+    background: #0088ff;
+    color: #fff;
+    border-color: #00aaff;
+}
+
+/* Boss Health Bar */
+#boss-health-bar {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 20px;
+    background: #333;
+    border: 2px solid #666;
+    display: none;
+    z-index: 15;
+}
+
+#boss-health-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff0000, #ff6600);
+    width: 100%;
+    transition: width 0.2s;
+}
+
+#boss-name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Screens */
+#start-screen, #game-over-screen, #pause-screen {
     position: absolute;
     top: 0;
     left: 0;
@@ -95,7 +174,7 @@ body {
     z-index: 100;
 }
 
-#start-screen h1, #game-over-screen h1 {
+#start-screen h1, #game-over-screen h1, #pause-screen h1 {
     font-size: 64px;
     color: #ffcc00;
     text-shadow: 4px 4px 0 #ff6600, 8px 8px 0 #cc0000;
@@ -103,27 +182,57 @@ body {
     letter-spacing: 10px;
 }
 
-#start-screen p, #game-over-screen p {
+#pause-screen h1 {
+    font-size: 48px;
+}
+
+#start-screen p, #game-over-screen p, #pause-screen p {
     color: #aaa;
     font-size: 18px;
     margin-bottom: 15px;
 }
 
 .controls-info {
+    display: flex;
+    gap: 40px;
     margin: 30px 0;
     text-align: center;
 }
 
-.controls-info p {
-    color: #0af;
-    font-size: 14px;
-    margin: 8px 0;
+.control-column {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px 25px;
+    border-radius: 10px;
+    border: 1px solid #333;
 }
 
-#start-btn, #restart-btn {
-    margin-top: 30px;
-    padding: 15px 50px;
-    font-size: 24px;
+.control-column h3 {
+    color: #ffcc00;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.controls-info p, .control-column p {
+    color: #0af;
+    font-size: 13px;
+    margin: 6px 0;
+}
+
+.hint {
+    color: #ff00ff !important;
+    font-size: 14px !important;
+    margin-top: 20px !important;
+}
+
+.button-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+#start-btn, #restart-btn, #start-2p-btn, #resume-btn, #quit-btn {
+    padding: 15px 40px;
+    font-size: 20px;
     font-family: 'Courier New', monospace;
     background: linear-gradient(180deg, #ff6600, #cc3300);
     color: #fff;
@@ -135,17 +244,107 @@ body {
     box-shadow: 0 4px 0 #990000;
 }
 
+#start-2p-btn {
+    background: linear-gradient(180deg, #00cc66, #009944);
+    box-shadow: 0 4px 0 #006622;
+}
+
+#resume-btn {
+    background: linear-gradient(180deg, #0088ff, #0066cc);
+    box-shadow: 0 4px 0 #004499;
+}
+
+#quit-btn {
+    background: linear-gradient(180deg, #666, #444);
+    box-shadow: 0 4px 0 #222;
+}
+
 #start-btn:hover, #restart-btn:hover {
     background: linear-gradient(180deg, #ff9900, #ff6600);
     transform: translateY(-2px);
     box-shadow: 0 6px 0 #990000;
 }
 
-#start-btn:active, #restart-btn:active {
+#start-2p-btn:hover {
+    background: linear-gradient(180deg, #00ff88, #00cc66);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #006622;
+}
+
+#resume-btn:hover {
+    background: linear-gradient(180deg, #00aaff, #0088ff);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #004499;
+}
+
+#quit-btn:hover {
+    background: linear-gradient(180deg, #888, #666);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #222;
+}
+
+#start-btn:active, #restart-btn:active, #start-2p-btn:active, #resume-btn:active, #quit-btn:active {
     transform: translateY(2px);
     box-shadow: 0 2px 0 #990000;
 }
 
+/* Highscore List */
+#highscore-list {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    min-width: 250px;
+}
+
+.highscore-entry {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.highscore-entry.new-score {
+    color: #ffcc00;
+    background: rgba(255, 204, 0, 0.1);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
 .hidden {
     display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+    #game-container {
+        width: 100vw;
+        height: 75vw;
+        max-height: 100vh;
+    }
+
+    #gameCanvas {
+        width: 100%;
+        height: 100%;
+    }
+
+    .controls-info {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #start-btn, #restart-btn, #start-2p-btn {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
 }
